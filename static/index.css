@@ -797,6 +797,9 @@ footer p {
     margin: 5px;
     cursor: pointer;
   }
+  #bottom-right-ribbon1, #bottom-right-ribbon2 {
+    display: none;
+  }
 }
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
@@ -828,4 +831,31 @@ input[type=number] {
 }
 .spinner:last-child {
   border-radius: 0 3px 3px 0;
+}
+#bottom-right-ribbon1, #bottom-right-ribbon2 {
+    position: fixed;
+    height: 25px;
+    background: #b39b24;
+    bottom: 7px;
+    font-family: sans-serif;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #fff;
+    line-height: 27px;
+    transform: rotate(-45deg);
+    text-shadow:none
+}
+#bottom-right-ribbon2 {
+    width: 80px;
+    right: -20px;
+    text-align: center;
+    font-size: 12px;
+    z-index:2
+}
+#bottom-right-ribbon1 {
+    width: 280px;
+    right: -70px;
+    text-align: center;
+    font-size: 12px;
+    z-index:2
 }
