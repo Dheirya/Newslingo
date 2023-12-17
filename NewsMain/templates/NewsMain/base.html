@@ -1,0 +1,63 @@
+<!doctype html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock title %}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Dheirya/Newslingo@latest/static/index.min.css">
+</head>
+<body ontouchstart="">
+    <header>
+        <nav id="links">
+            <h1 style="cursor: pointer" onclick="window.location.href='/'">News<span class="accented">lingo</span></h1>
+            <p>Learn a new language quick thru reading</p>
+            {% for category in categories %}
+                <a href="{% if category != 'Trending' %}/?category={{ category }}{% else %}./{% endif %}" {% if selected_category == category %} class="current" {% endif %}>{{ category }}</a>
+            {% endfor %}
+        </nav>
+    </header>
+    <main>
+        {% block content %}{% endblock %}
+        <div class="sidebar">
+            <h3>Settings</h3>
+            <p class="notice">
+                <span>
+                    <span class="lng-txt">Use</span><span class="shrt-txt">Lang:</span>
+                    <select style="cursor:pointer" id="languages">
+							<optgroup label="Languages">
+								<option>Spanish</option>
+								<option>French</option>
+								<option>German</option>
+								<option>Italian</option>
+								<option>Danish</option>
+								<option>Latin</option>
+								<option>Norwegian</option>
+								<option>Swedish</option>
+                                <option>Portuguese</option>
+							</optgroup>
+						</select>
+                    <span class="lng-txt">words</span>
+                </span><br/>
+                <span>
+                    <span class="lng-txt">New word every</span><span class="shrt-txt">Freq:</span>
+                    <span class="number-input">
+                        <button class="spinner decrement">-</button>
+                        <input value="15" readonly type="number" class="qtyInputLoose" id="frequency">
+                        <button class="spinner increment">+</button>
+                    </span>
+                    words
+                </span><br/>
+                <span><input type="checkbox" id="autosave" checked/><span class="lng-txt">&nbsp;Autosave new words list</span><span class="shrt-txt">&nbsp;Autosave words list</span></span><br/>
+            </p>
+            <h3 style="margin-top: -20px">Latest 5 <span onclick="window.location.href='/list/'" style="cursor: pointer" class="accented">Words</span></h3>
+            <div class="words-min-grid"></div>
+            <hr/>
+            <h4 style="margin-top: -5px; margin-bottom: 0px">Disclaimer</h4>
+            <div style="margin-bottom: 25px"><small>Translations are machine-generated translations courtesy of Google Translate. As such, some translations may be incorrect in terms of grammar and spelling, so use with caution. This project has been made for educational purposes only.</small></div>
+        </div>
+    </main>
+    {% block footer %}{% endblock %}
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/Dheirya/Newslingo@latest/static/index.min.js"></script>
+</body>
+</html>

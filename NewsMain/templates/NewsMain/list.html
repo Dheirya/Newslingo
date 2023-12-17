@@ -1,0 +1,38 @@
+{% extends 'NewsMain/base.html' %}
+{% block title %}My New Words - Newslingo{% endblock title %}
+{% block content %}
+<style>@media only screen and (max-width: 985px) {main div.sidebar {margin-top: -65px;}}</style>
+<div class="articles">
+    <h3 style="margin-bottom: 14.5px;margin-top: 49.5px">Your New Words List (<span id="words"></span> words) <span id="clear">(CLEAR LIST)</span></h3>
+    <div class="words-grid"></div>
+</div>
+{% endblock %}
+{% block footer %}
+<footer style="margin-top: -12.5px !important">
+    <p>An open source project made by Dheirya Tyagi &#xb7; Code <a href="https://github.com/Dheirya/Newslingo" target="_blank">here</a> &#xb7; My links & other projects located <a href="https://dheirya.is-a.dev" target="_blank">here</a></p>
+</footer>
+<script>
+    let list = JSON.parse(localStorage.getItem('autosave_list'));
+    const articlesContainer = document.querySelector('.words-grid');
+    words = 0;
+    if (list) {
+        list = list.slice().reverse();
+        list.forEach(item => {
+            const div = document.createElement('div');
+            div.innerHTML = `<strong>${item.word}</strong><br/>${item.translation}<br/><small>Language: ${item.language}</small>`;
+            div.className = 'notice width-xs';
+            div.setAttribute("onclick", "searchGoogle(`" + item.translation + "`, `" + item.language + "`)");
+            articlesContainer.appendChild(div);
+            words++;
+        });
+    }
+    document.getElementById("words").innerHTML = words;
+    document.getElementById("clear").addEventListener('click', clearList);
+    function clearList() {
+        if (localStorage.getItem("autosave_list")) {
+            localStorage.removeItem('autosave_list');
+            window.location.reload();
+        }
+    }
+</script>
+{% endblock %}

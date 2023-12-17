@@ -1,0 +1,47 @@
+{% extends 'NewsMain/base.html' %}
+{% block title %}{{title}} - Newslingo{% endblock title %}
+{% block content %}
+<style>@media only screen and (max-width: 985px) {main div.sidebar {margin-top: -65px;}}</style>
+<div class="articles">
+    <div class="notice" style="margin-top: 50px">
+        <h3 style="margin-top: 5px">{{ title }} <i><a style="font-size: 75%" href="{{ url }}" target="_blank">from {{ type }}</a></i></h3>
+        <div id="content" style="margin-top: -15px">
+            <p>{{ content|safe }}</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block footer %}
+<footer style="margin-top: -12.5px !important">
+    <p>An open source project made by Dheirya Tyagi &#xb7; Code <a href="https://github.com/Dheirya/Newslingo" target="_blank">here</a> &#xb7; My links & other projects located <a href="https://dheirya.is-a.dev" target="_blank">here</a></p>
+</footer>
+<script>
+    let marks = document.querySelectorAll('#content mark');
+    marks.forEach(function(mark) {
+        let tooltipContainer = document.createElement('span');
+        tooltipContainer.classList.add('tooltip');
+        mark.parentNode.insertBefore(tooltipContainer, mark);
+        tooltipContainer.appendChild(mark);
+        let tooltipText = document.createElement('span');
+        tooltipText.classList.add('tooltiptext');
+        tooltipText.textContent = mark.getAttribute('translation');
+        tooltipContainer.appendChild(tooltipText);
+    });
+    const autosaveCookieValue = document.cookie.split('; ').find(cookie => cookie.split('=')[0] === 'autosave')?.split('=')[1];
+    if (autosaveCookieValue === "true") {
+        let previousData = JSON.parse(localStorage.getItem(`autosave_list`));
+        if (!previousData) {
+            previousData = [];
+        }
+        const wordList = JSON.parse(`{{ autosave_list|safe }}`);
+        const newWordsAndTranslations = Object.values(wordList).map(item => ({
+            translation: item.translation,
+            word: item.word,
+            language: item.language
+        }));
+        const uniqueNewWordsAndTranslations = newWordsAndTranslations.filter(newItem => !previousData.some(prevItem => prevItem.word === newItem.word));
+        const updatedPreviousData = [...previousData, ...uniqueNewWordsAndTranslations];
+        localStorage.setItem('autosave_list', JSON.stringify(updatedPreviousData));
+    }
+</script>
+{% endblock %}

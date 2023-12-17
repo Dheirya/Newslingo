@@ -1,0 +1,33 @@
+{% extends 'NewsMain/base.html' %}
+{% block title %}Newslingo - Quick language learning using reading{% endblock title %}
+{% block content %}
+<style>@media only screen and (max-width: 985px) {main div.sidebar {margin-top: -22.5px; margin-bottom: -47.5px;}}</style>
+<div class="articles">
+    <h3 style="margin-bottom: 14.5px;margin-top: 39.5px"><span id="category" class="accented">{{ selected_category }}</span> Articles from<select id="sourceSelect"><option value="">All Sources {% if given_source == "All" %}↓{% endif %}</option>{% for source, url in dropdown.items %}<option {% if given_source == url %}selected{% endif %} value="{{url}}">{{ source }} {% if given_source == url %}↓{% endif %}</option>{% endfor %}</select></h3>
+    {% for article in articles %}
+        <p class="notice" onclick="window.location.href = '/article/?link={{ article.link }}{% if selected_category %}&category={{selected_category }}{% endif %}'">
+            <strong>{{ article.title }}</strong><br/>
+            {{ article.description }}<br/>
+            <small>Source: {{ article.source }}</small>
+        </p>
+    {% endfor %}
+</div>
+{% endblock %}
+{% block footer %}
+<footer style="margin-top: 35px !important">
+    <p>An open source project made by Dheirya Tyagi &#xb7; Code <a href="https://github.com/Dheirya/Newslingo" target="_blank">here</a> &#xb7; My links & other projects located <a href="https://dheirya.is-a.dev" target="_blank">here</a></p>
+</footer>
+<script>
+    const sourceSelect = document.getElementById('sourceSelect');
+    sourceSelect.addEventListener('change', function () {
+        const selectedValue = sourceSelect.value;
+        const currentURL = new URL(window.location.href);
+        if (selectedValue) {
+            currentURL.searchParams.set('source', selectedValue);
+        } else {
+            currentURL.searchParams.delete('source');
+        }
+        window.location.href = currentURL.toString();
+    });
+</script>
+{% endblock %}
